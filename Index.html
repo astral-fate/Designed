@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026: DESIGNED | Interactive Workbook</title>
+    <style>
+        :root {
+            --bg-dark: #0a192f;
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text: #e6f1ff;
+            --text-dim: #8892b0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            display: flex;
+            line-height: 1.6;
+        }
+
+        /* Glassmorphism Background */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(100, 255, 218, 0.02) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: 280px;
+            height: 100vh;
+            background: rgba(10, 25, 47, 0.95);
+            border-right: 1px solid var(--gold);
+            position: fixed;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .logo-sub {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+        }
+
+        nav ul { list-style: none; padding: 0; }
+        nav li {
+            padding: 0.8rem 0;
+            cursor: pointer;
+            color: var(--text-dim);
+            transition: 0.3s;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        nav li:hover { color: var(--gold); transform: translateX(5px); }
+
+        /* Main Content */
+        main {
+            margin-left: 280px;
+            padding: 4rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3.5rem;
+            margin-bottom: 5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        h1 { font-size: 2.5rem; color: var(--gold); margin-top: 0; }
+        h2 { font-size: 1.8rem; color: var(--gold); margin-bottom: 1rem; }
+        p { color: var(--text-dim); font-size: 1.1rem; }
+
+        .badge {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--bg-dark);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Form Elements */
+        .input-group { margin-bottom: 2rem; }
+        label { display: block; margin-bottom: 0.8rem; color: var(--text); font-weight: 500; }
+        
+        textarea, input[type="text"] {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            color: white;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        textarea { min-height: 120px; resize: vertical; }
+
+        /* Compass Layout */
+        .compass-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dir-box {
+            background: rgba(0,0,0,0.2);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-left: 3px solid var(--gold);
+        }
+
+        .dir-box strong { color: var(--gold); display: block; margin-bottom: 0.5rem; }
+
+        .footer-note {
+            text-align: center;
+            color: var(--text-dim);
+            font-style: italic;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+
+    <nav>
+        <div class="logo">2026</div>
+        <div class="logo-sub">Designed</div>
+        <ul>
+            [span_2](start_span)[span_3](start_span)<li onclick="go('intro')">The Vision[span_2](end_span)[span_3](end_span)</li>
+            [span_4](start_span)<li onclick="go('regret')">Regret Review[span_4](end_span)</li>
+            [span_5](start_span)<li onclick="go('premitem')">Pre-Mortem[span_5](end_span)</li>
+            [span_6](start_span)<li onclick="go('snapshot')">Identity Snapshot[span_6](end_span)</li>
+            [span_7](start_span)[span_8](start_span)<li onclick="go('todont')">To-Don't List[span_7](end_span)[span_8](end_span)</li>
+            [span_9](start_span)<li onclick="go('compass')">Priorities Compass[span_9](end_span)</li>
+            [span_10](start_span)[span_11](start_span)<li onclick="go('wins')">Three Wins[span_10](end_span)[span_11](end_span)</li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="intro" class="card">
+            [span_12](start_span)[span_13](start_span)<span class="badge">Orientation[span_12](end_span)[span_13](end_span)</span>
+            [span_14](start_span)[span_15](start_span)<h1>Design your best year.[span_14](end_span)[span_15](end_span)</h1>
+            <p>Most people enter a year with hopes. [span_16](start_span)You're entering with intention.[span_16](end_span) [span_17](start_span)This workbook is a place to think clearly and choose deliberately so your actions match your ambitions.[span_17](end_span)</p>
+        </section>
+
+        <section id="regret" class="card">
+            [span_18](start_span)<span class="badge">Looking Back[span_18](end_span)</span>
+            <h2>Regret Review</h2>
+            <p>Look backward with honesty. [span_19](start_span)Look forward with intention.[span_19](end_span)</p>
+            <div class="input-group">
+                [span_20](start_span)<label>My biggest regret of 2025:[span_20](end_span)</label>
+                <textarea id="regret-text" placeholder="Be honest..."></textarea>
+            </div>
+            <div class="input-group">
+                [span_21](start_span)<label>The lesson learned:[span_21](end_span)</label>
+                <textarea id="lesson-text" placeholder="What did it teach you?"></textarea>
+            </div>
+        </section>
+
+        <section id="premitem" class="card">
+            [span_22](start_span)<span class="badge">Risk Management[span_22](end_span)</span>
+            <h2>Pre-Mortem</h2>
+            <p>Jump to the end of 2026. Imagine failure. [span_23](start_span)Prevent it before it happens.[span_23](end_span)</p>
+            <div class="input-group">
+                [span_24](start_span)<label>Most important project for 2026:[span_24](end_span)</label>
+                <input type="text" id="project-main" placeholder="e.g., Saudi Dialect TTS Fine-tuning">
+            </div>
+            <div class="input-group">
+                [span_25](start_span)<label>If this fails by Dec 31, what went wrong?[span_25](end_span)</label>
+                <textarea id="fail-scenarios" placeholder="1. Technical collapse...&#10;2. Lack of consistency..."></textarea>
+            </div>
+        </section>
+
+        <section id="snapshot" class="card">
+            [span_26](start_span)<span class="badge">Self-Alignment[span_26](end_span)</span>
+            <h2>Identity Snapshot</h2>
+            [span_27](start_span)<p>A quick portrait of you at your best so you can design for it.[span_27](end_span)</p>
+            <div class="input-group">
+                [span_28](start_span)<label>Three words that describe me at my best:[span_28](end_span)</label>
+                <input type="text" id="id-words" placeholder="e.g., Focused, Creative, Resilient">
+            </div>
+            <div class="input-group">
+                [span_29](start_span)<label>Conditions that help me thrive:[span_29](end_span)</label>
+                <textarea id="id-conditions" placeholder="People, places, routines, environments..."></textarea>
+            </div>
+        </section>
+
+        <section id="todont" class="card">
+            [span_30](start_span)<span class="badge">Subtraction[span_30](end_span)</span>
+            <h2>My 2026 "To Don't" List</h2>
+            [span_31](start_span)<p>What you stop doing matters as much as what you start doing.[span_31](end_span)</p>
+            <div class="input-group">
+                [span_32](start_span)[span_33](start_span)<label>Time Wasters to Eliminate:[span_32](end_span)[span_33](end_span)</label>
+                <textarea id="todont-list" placeholder="1. Don't...&#10;2. Don't...&#10;3. Don't..."></textarea>
+            </div>
+        </section>
+
+        <section id="compass" class="card">
+            [span_34](start_span)<span class="badge">The Map[span_34](end_span)</span>
+            <h2>Priorities Compass</h2>
+            <div class="compass-grid">
+                <div class="dir-box">
+                    [span_35](start_span)<strong>North: Long-term Projects[span_35](end_span)</strong>
+                    [span_36](start_span)<textarea id="comp-north" placeholder="The things your future self cares about.[span_36](end_span)"></textarea>
+                </div>
+                <div class="dir-box">
+                    [span_37](start_span)<strong>East: Relationships[span_37](end_span)</strong>
+                    [span_38](start_span)<textarea id="comp-east" placeholder="The people who help you flourish.[span_38](end_span)"></textarea>
+                </div>
+                <div class="dir-box">
+                    [span_39](start_span)<strong>West: Daily Habits[span_39](end_span)</strong>
+                    [span_40](start_span)<textarea id="comp-west" placeholder="Compound benefits.[span_40](end_span)"></textarea>
+                </div>
+                <div class="dir-box">
+                    [span_41](start_span)<strong>South: Subtraction[span_41](end_span)</strong>
+                    [span_42](start_span)<textarea id="comp-south" placeholder="Habits to remove.[span_42](end_span)"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section id="wins" class="card">
+            [span_43](start_span)<span class="badge">Success Defined[span_43](end_span)</span>
+            <h2>My Three Wins</h2>
+            [span_44](start_span)<p>If these three things happen, 2026 is a success, regardless of setbacks.[span_44](end_span)</p>
+            <div class="input-group">
+                [span_45](start_span)<input type="text" id="win1" placeholder="Win 1: Specific & Measurable[span_45](end_span)" style="margin-bottom:10px">
+                [span_46](start_span)<input type="text" id="win2" placeholder="Win 2: Specific & Measurable[span_46](end_span)" style="margin-bottom:10px">
+                [span_47](start_span)<input type="text" id="win3" placeholder="Win 3: Specific & Measurable[span_47](end_span)">
+            </div>
+        </section>
+
+        <p class="footer-note">"Design a year that feels like you. [span_48](start_span)Not a year that impresses others."[span_48](end_span)</p>
+    </main>
+
+    <script>
+        // Smooth Navigation
+        function go(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Auto-save System
+        const fields = [
+            'regret-text', 'lesson-text', 'project-main', 'fail-scenarios', 
+            'id-words', 'id-conditions', 'todont-list', 'comp-north', 
+            'comp-east', 'comp-west', 'comp-south', 'win1', 'win2', 'win3'
+        ];
+
+        window.onload = () => {
+            fields.forEach(id => {
+                const element = document.getElementById(id);
+                // Load
+                const savedValue = localStorage.getItem('2026_designed_' + id);
+                if (savedValue) element.value = savedValue;
+                
+                // Save on change
+                element.addEventListener('input', () => {
+                    localStorage.setItem('2026_designed_' + id, element.value);
+                });
+            });
+        };
+
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(30px)";
+            card.style.transition = "all 0.8s ease-out";
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
